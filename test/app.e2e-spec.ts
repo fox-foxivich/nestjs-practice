@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
@@ -16,10 +17,13 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it('/app/create (POST)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/app/create')
+      .send({ num: 1 });
+
+    expect(res.body.num).toBe(1);
+    expect(res.body.id).toBeGreaterThan(0);
+    expect(res.statusCode).toBe(201);
   });
 });

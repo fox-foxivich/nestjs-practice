@@ -6,6 +6,12 @@ import { DatabaseModule } from './database/database.module';
 @Module({
   imports: [DatabaseModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'TEST',
+      useValue: 1,
+    },
+  ],
 })
 export class AppModule {}
